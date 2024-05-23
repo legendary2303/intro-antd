@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { DatePicker, ConfigProvider,Button } from 'antd';
+import LayoutComponent from './components/Layout';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,8 +16,7 @@ function App() {
       }
         }}
         >
-      <DatePicker/>
-      <Button type='primary'>Primary button</Button>
+      <LayoutComponent></LayoutComponent>
     </ConfigProvider>
   )
 }
