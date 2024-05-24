@@ -1,6 +1,8 @@
 import React from 'react';
 import { Col,Row } from 'antd';
 import './Layout.css'
+import FormLogin from '../../FormLogin';
+import Imagendefondo from '../../ImageLogin/imagen';
 
 const LayoutComponent = () => {
     return (
@@ -8,14 +10,14 @@ const LayoutComponent = () => {
             <Row>
                 <Col xs={0} sm={0} md={4} lg={6}>
                     <div className="content-left">
-                        <h1 className='title'>Izquierda</h1>
+                        <Imagendefondo/>
                     </div>
                 </Col>
             
             
                 <Col xs={24} sm={24} md={20} lg={18}>
                 <div className="content-right">
-                        <h1 className='title'>Derecha</h1>
+                        <FormLogin/>
                     </div>
                 </Col>
             </Row>
