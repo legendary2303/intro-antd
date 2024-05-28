@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { DatePicker, ConfigProvider,Button } from 'antd';
-import LayoutComponent from './components/Layout';
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,7 +17,10 @@ function App() {
       }
         }}
         >
-      <LayoutComponent></LayoutComponent>
+          <BrowserRouter>
+              <AppRoutes/>
+          </BrowserRouter>
+      
     </ConfigProvider>
   )
 }

@@ -4,20 +4,21 @@ import './Layout.css'
 import FormLogin from '../../FormLogin';
 import Imagendefondo from '../../ImageLogin/imagen';
 
-const LayoutComponent = () => {
+
+const LayoutComponent = ({leftColSize,rightColSize,leftContent,rightContent}) => {
     return (
         <div className="Layout-container">
             <Row>
-                <Col xs={0} sm={0} md={4} lg={6}>
+                <Col xs={leftColSize.xs} sm={leftColSize.sm} md={leftColSize.md} lg={leftColSize.lg}>
                     <div className="content-left">
-                        <Imagendefondo/>
+                        {leftContent}
                     </div>
                 </Col>
             
             
-                <Col xs={24} sm={24} md={20} lg={18}>
+                <Col xs={rightColSize.xs} sm={rightColSize.sm} md={rightColSize.md} lg={rightColSize.lg}>
                 <div className="content-right">
-                        <FormLogin/>
+                        {rightContent}
                     </div>
                 </Col>
             </Row>
