@@ -1,10 +1,9 @@
 import React from 'react';
 import { Form,Input,Button,Card } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import './FormLogin.css'
+import './Register.css'
 
-
-const FormLogin = () => {
+const FormRegister = () => {
 
     const onFinish = (values) =>{
         console.log('Success',values);
@@ -13,10 +12,10 @@ const FormLogin = () => {
         console.log('Failed',errorInfo);
     }
 
-    return (
+    return(
         <>
         <Card
-        title="Bienvenido de nuevo"
+        title="Registrate"
         bordered={false}
         className='responsive-card'
         >
@@ -55,11 +54,11 @@ const FormLogin = () => {
 
                 <Form.Item>
                     <Button type='primary' htmlType='submit' className='login-form-button'>
-                        Iniciar Sesion
+                        Registrarse
                     </Button>
                 </Form.Item>
 
-                Aun no tienes cuenta? <a href='/Register'>Registrate</a>
+                Ya tienes cuenta? <a href='/login'>Iniciar Sesion</a>
 
             </Form>
         </Card>
@@ -68,4 +67,4 @@ const FormLogin = () => {
     );
 }
 
-export default FormLogin
+export default FormRegister;
