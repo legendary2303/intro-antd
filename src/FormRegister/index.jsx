@@ -1,15 +1,53 @@
-import React from 'react';
+import React,{useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Form,Input,Button,Card } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, } from '@ant-design/icons';
+import axios from 'axios';
 import './Register.css'
 
 const FormRegister = () => {
 
-    const onFinish = (values) =>{
-        console.log('Success',values);
+    const navigate = useNavigate();
+
+    const [registerError, setRegisterError ] = useState(false);
+
+    const [loading, setLoading] = useState(false);
+
+    const validatePassword = ({ getFieldValue }) => ({
+        validator(_,value) {
+            if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+            }
+            return Promise.reject(new Error('las constraseñas no coinciden'));
+        },
+    });
+
+    const onFinish = async (values) =>{
+        
+        setLoading(true);//establece el tiempo de carga
+        try {
+            const response = await axios.post('https://api-books-omega.vercel.app/getin/signUp',
+                {
+                    readername: values.username,
+                    email: values.email,
+                    password: values.password,
+                    roles: ['PageGuardian']
+                }
+            );
+
+            console.log('Registro exitoso:',response.data);
+            navigate('/login');
+        } catch (error) {
+            console.error('Error en el registro',error.response.data);
+            setRegisterError(true);
+        } finally {
+            setLoading(false)//establece el tiempo de carga a false
+        }
     }
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed',errorInfo);
+        setRegisterError(true);
     }
 
     return(
@@ -27,6 +65,7 @@ const FormRegister = () => {
                 remember: true,
             }}
             onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
             >
                 <Form.Item
                 name="username"
@@ -40,6 +79,21 @@ const FormRegister = () => {
                     <Input prefix = {<UserOutlined/>} placeholder="usuario" />
                 </Form.Item>
 
+                
+
+                <Form.Item
+                name="email"
+                rules={[
+                    {
+                    required: true,
+                    message: 'Por favor ingrese su email'
+                    }
+                ]}
+                >
+                    <Input placeholder="email" />
+                </Form.Item>
+
+
                 <Form.Item
                 name="password"
                 rules={[
@@ -49,11 +103,33 @@ const FormRegister = () => {
                     }
                 ]}
                 >
-                    <Input.Password prefix = {<LockOutlined/>} placeholder="password" />
+                    <Input.Password prefix = {<LockOutlined/>} placeholder="Contraseña" />
                 </Form.Item>
 
+
+
+
+
+                <Form.Item
+                name="password-repet"
+                rules={[
+                    {
+                    required: true,
+                    message: 'Por favor repita su contraseña'
+                    },
+                    ({getFieldValue}) => validatePassword({getFieldValue}),
+                ]}
+                >
+                    <Input.Password prefix = {<LockOutlined/>} placeholder="repetir contraseña" />
+                </Form.Item>
+
+
+
+
+
                 <Form.Item>
-                    <Button type='primary' htmlType='submit' className='login-form-button'>
+                    {registerError && <p style={{ color: 'red' }}>Fallo el registro</p>}
+                    <Button type='primary' htmlType='submit' className='login-form-button' loading={loading}>
                         Registrarse
                     </Button>
                 </Form.Item>
