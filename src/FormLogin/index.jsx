@@ -8,9 +8,10 @@ import authService from '../services/auth';
 import { useAuth } from '../hooks/useAuth';
 
 
+
 const FormLogin = () => {
     const navigate = useNavigate();
-
+    
 
     const [loginError, setLoginError ] = useState(false);
 
@@ -19,8 +20,10 @@ const FormLogin = () => {
     const useAuthData = useAuth();
     console.log(useAuthData)
 
+    const { login,getSession } = useAuthData;
+
     const onFinish = async (values) =>{
-        
+        setLoginError(false);
         setLoading(true);//establece el tiempo de carga
         try {
             const response = await authService.login(values.username,values.password);
@@ -30,6 +33,9 @@ const FormLogin = () => {
             
             console.log('Inicio de sesion exitoso:',response.data);
             localStorage.setItem('token',response.data.token);//guarda el token en el almacenamiento local
+            login(response.data.token);
+            getSession();
+            
             navigate('/');
             }else{
                 console.error('Error en el inicio de sesion: Respuesta inesperada');
