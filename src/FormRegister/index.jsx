@@ -4,6 +4,9 @@ import { Form,Input,Button,Card } from 'antd';
 import { UserOutlined, LockOutlined, } from '@ant-design/icons';
 import axios from 'axios';
 import './Register.css'
+import authService from '../services/auth';
+import { validatepassword } from '../utils/validation';
+
 
 const FormRegister = () => {
 
@@ -13,30 +16,20 @@ const FormRegister = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const validatePassword = ({ getFieldValue }) => ({
-        validator(_,value) {
-            if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-            }
-            return Promise.reject(new Error('las constraseñas no coinciden'));
-        },
-    });
+    
 
     const onFinish = async (values) =>{
         
         setLoading(true);//establece el tiempo de carga
         try {
-            const response = await axios.post('https://api-books-omega.vercel.app/getin/signUp',
-                {
-                    readername: values.username,
-                    email: values.email,
-                    password: values.password,
-                    roles: ['PageGuardian']
-                }
-            );
 
-            console.log('Registro exitoso:',response.data);
+            const response = await authService.register(values.username,values.email,values.password);
+
+            console.log('Registro exitoso:',response);
             navigate('/login');
+
+            
+
         } catch (error) {
             console.error('Error en el registro',error.response.data);
             setRegisterError(true);
@@ -117,7 +110,7 @@ const FormRegister = () => {
                     required: true,
                     message: 'Por favor repita su contraseña'
                     },
-                    ({getFieldValue}) => validatePassword({getFieldValue}),
+                    ({getFieldValue}) => validatepassword({getFieldValue}),
                 ]}
                 >
                     <Input.Password prefix = {<LockOutlined/>} placeholder="repetir contraseña" />

@@ -5,11 +5,13 @@ import './App.css'
 import { DatePicker, ConfigProvider,Button } from 'antd';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+    <AuthProvider>
     <ConfigProvider
     theme={{
       token:{
@@ -22,6 +24,7 @@ function App() {
           </BrowserRouter>
       
     </ConfigProvider>
+    </AuthProvider>
   )
 }
 

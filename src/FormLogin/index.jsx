@@ -4,7 +4,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './FormLogin.css'
 import { useNavigate } from 'react-router-dom';
-
+import authService from '../services/auth';
+import { useAuth } from '../hooks/useAuth';
 
 
 const FormLogin = () => {
@@ -15,22 +16,27 @@ const FormLogin = () => {
 
     const [loading, setLoading] = useState(false);//estado de carga
 
+    const useAuthData = useAuth();
+    console.log(useAuthData)
+
     const onFinish = async (values) =>{
         
         setLoading(true);//establece el tiempo de carga
         try {
-            const response = await axios.post('https://api-books-omega.vercel.app/getin/signin',
-                {
-                    email: values.username,
-                    password: values.password
-                }
-            );
+            const response = await authService.login(values.username,values.password);
 
-            console.log('Iniciod de sesion exitoso:',response.data);
+            if (response && response.data) {
+                
+            
+            console.log('Inicio de sesion exitoso:',response.data);
             localStorage.setItem('token',response.data.token);//guarda el token en el almacenamiento local
             navigate('/');
+            }else{
+                console.error('Error en el inicio de sesion: Respuesta inesperada');
+                setLoginError(true);
+            }
         } catch (error) {
-            console.error('Error en el inicio de sesion',error.response.data);
+            console.error('Error en el inicio de sesion', error.response ? error.response.data : error.message);
             setLoginError(true);
         } finally {
             setLoading(false)//establece el tiempo de carga a false
