@@ -20,7 +20,7 @@ const FormLogin = () => {
     const useAuthData = useAuth();
     console.log(useAuthData)
 
-    const { login,getSession } = useAuthData;
+    const { login } = useAuthData;
 
     const onFinish = async (values) =>{
         setLoginError(false);
@@ -34,7 +34,7 @@ const FormLogin = () => {
             console.log('Inicio de sesion exitoso:',response.data);
             localStorage.setItem('token',response.data.token);//guarda el token en el almacenamiento local
             login(response.data.token);
-            getSession();
+            
             
             navigate('/');
             }else{

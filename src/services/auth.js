@@ -1,8 +1,9 @@
 import axios from "axios";
+import { ENV } from "../utils/constants";
 
 
 const register = async (username,email,password) => {
-    await axios.post('https://api-books-omega.vercel.app/getin/signUp',
+    await axios.post(`${ENV.API_URL}/${ENV.ENDPOINTS.REGISTER}`,
                 {
                     readername: username,
                     email: email,
@@ -15,7 +16,7 @@ const register = async (username,email,password) => {
 
 
 const login =  async (username, password) => {
-    return axios.post('https://api-books-omega.vercel.app/getin/signin',
+    return axios.post(`${ENV.API_URL}/${ENV.ENDPOINTS.LOGIN}`,
     {
         email: username,
         password: password
